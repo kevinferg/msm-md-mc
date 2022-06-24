@@ -331,7 +331,7 @@ int sys_run_mc(MDSystem* sys, double kT, double maxstep,unsigned long numsteps,i
 	clock_t t;
 	t = clock();
 	
-	printf("Running MC with a max step of %f in x, y, and z\n at kT=%f for %lu steps\n\n",
+	printf("\nRunning MC with a max step of %f in x, y, and z\n at kT=%f for %lu steps\n",
 	       maxstep, kT, numsteps);
 	
 	int particle_id;
@@ -402,7 +402,7 @@ int sys_run_mc(MDSystem* sys, double kT, double maxstep,unsigned long numsteps,i
 	time = ((double) clock()-t)/CLOCKS_PER_SEC;
 	(sys->runtime) += time;
 	
-	printf("\n\n----------RESULTS-----------\n");
+	printf("\n----------RESULTS-----------\n");
 	printf("%lu accepts of %lu total steps\n", accepts, numsteps);
 	printf("Time elapsed: %0.1f seconds\n", time);
 	

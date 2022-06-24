@@ -11,6 +11,7 @@
 #include "visualize.h"
 #include "logging.h"
 #include "io.h"
+#include "utils.h"
 
 #endif
 

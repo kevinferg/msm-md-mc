@@ -45,10 +45,15 @@ The units for all quantities are dimensionless "Lennard-Jones" units, each deriv
 
 
 ## Usage
-The code can be compiled on Windows using `mingw32-make`.  
-Run `test.bat` to both compile and run the executable.
-
-
+Put main simulation code in `src/main.c`.  
+To compile, use:
+```
+gcc src/*.c -o bin/simulate -lm
+```
+And then run with:
+```
+./bin/simulate
+```
 
 ## Examples
 
@@ -78,6 +83,8 @@ sys_run(&sys, 50000, 50);                // Run NVE 50,000 steps; print progress
 sys_destroy(&sys);                       // Free the system and close log/trajectory files
 ```
 
+The function [`md_simulation()`](src/utils.c) does all of this in one step.
+
 ### MC Simulation
 This example shows a basic MC simulation.
 ```
@@ -97,3 +104,5 @@ sys_run_mc(&sys,                       // Run a Monte Carlo simulation...
 io_export_xyz(&sys, "snapshot.xyz");   // Output final particle locations
 sys_destroy(&sys);                     // Free the system and close log file
 ```
+
+The function [`mc_simulation()`](src/utils.c) does all of this in one step.
