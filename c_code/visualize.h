@@ -1,5 +1,5 @@
-#ifndef _VISUALIZATION_H_
-#define _VISUALIZATION_H_
+#ifndef VISUALIZATION_H
+#define VISUALIZATION_H
 
 #define CONSOLE_WIDTH 98
 #define CONSOLE_HEIGHT 49
@@ -12,9 +12,6 @@
 int vis_init(void);
 int vis_end(void);
 
-int vis_render_system(MDSystem *sys,unsigned int dim1,unsigned int dim2);
-
-
-
+int vis_render_system(MDSystem *sys, unsigned int dim1, unsigned int dim2);
 
 #endif
