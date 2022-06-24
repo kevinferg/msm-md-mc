@@ -1,5 +1,9 @@
 #include <stdio.h>
+
+#if defined(WIN32) || defined(_WIN32)
 #include <windows.h>
+#endif
+
 #include "types.h"
 #include "visualize.h"
 
@@ -7,32 +11,39 @@
 static int cursor_position(unsigned char r, unsigned char c);
 static uint snap_to_grid(double x, double y, uint* row, uint* col, double* limits);
 
+#if defined(WIN32) || defined(_WIN32)
 static DWORD initialMode;
+#endif
 
 
-int vis_init(void){
-	DWORD outMode = 0;
-	HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
-	GetConsoleMode(hOut, &outMode);
-	initialMode = outMode;
-	
-	outMode |= ENABLE_VIRTUAL_TERMINAL_PROCESSING;
-	
-	SetConsoleMode(hOut, outMode);
+int vis_init(void) {
+	#if defined(WIN32) || defined(_WIN32)
+		DWORD outMode = 0;
+		HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
+		GetConsoleMode(hOut, &outMode);
+		initialMode = outMode;
+
+		outMode |= ENABLE_VIRTUAL_TERMINAL_PROCESSING;
+
+		SetConsoleMode(hOut, outMode);
+	#endif
+
 	fputs("\x1b[?25l",stdout);
 	fputs("\x1b[?12l",stdout);
 }
 
 
-int vis_end(void){
+int vis_end(void) {
 	fputs("\x1b[?12h",stdout);
 	fputs("\x1b[?25h",stdout);
 	
-	HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
-	SetConsoleMode(hOut,initialMode);
+	#if defined(WIN32) || defined(_WIN32)
+		HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
+		SetConsoleMode(hOut,initialMode);
+	#endif
 }
 
-int vis_render_system(MDSystem *sys,unsigned int dim1,unsigned int dim2){
+int vis_render_system(MDSystem *sys, unsigned int dim1, unsigned int dim2) {
 	if ((dim1>2) || (dim2>2) || (dim1==dim2)){
 		dim1 = 0;
 		dim2 = 1;
@@ -50,14 +61,14 @@ int vis_render_system(MDSystem *sys,unsigned int dim1,unsigned int dim2){
 			console_buffer[i] = ' ';
 		}
 		
-		for (i=0;i<CONSOLE_HEIGHT;i++){
+		for (i=0;i<CONSOLE_HEIGHT;i++) {
 			console_buffer[(i+1)*(CONSOLE_WIDTH+1)] = '\n';
 		}
 		console_buffer[NUM_CHARS-1] = '\0';
 	}
 
 
-	for (i=0;i<sys->N_particles;i++){
+	for (i=0;i<sys->N_particles;i++) {
 		snap_to_grid(sys->particles[i].pos.V[dim1],sys->particles[i].pos.V[dim2],&r,&c,limits);
 		console_buffer[r*(CONSOLE_WIDTH+1)+c] = 'O';
 	}
@@ -66,7 +77,7 @@ int vis_render_system(MDSystem *sys,unsigned int dim1,unsigned int dim2){
 	fputs(console_buffer,stdout);
 	fflush(stdout);
 	
-	for (i=0;i<sys->N_particles;i++){
+	for (i=0;i<sys->N_particles;i++) {
 		snap_to_grid(sys->particles[i].pos.V[dim1],sys->particles[i].pos.V[dim2],&r,&c,limits);
 		console_buffer[r*(CONSOLE_WIDTH+1)+c] = ' ';
 	}
@@ -74,7 +85,8 @@ int vis_render_system(MDSystem *sys,unsigned int dim1,unsigned int dim2){
 	first = 0;
 	return 0;
 } 
-static uint snap_to_grid(double x, double y, uint* row, uint* col, double* limits){
+
+static uint snap_to_grid(double x, double y, uint* row, uint* col, double* limits) {
 	double x_min = limits[0];
 	double x_max = limits[1];
 	double y_min = limits[2];
@@ -93,7 +105,7 @@ static uint snap_to_grid(double x, double y, uint* row, uint* col, double* limit
 	return 0;
 }
 
-static int cursor_position(unsigned char r, unsigned char c){
+static int cursor_position(unsigned char r, unsigned char c) {
 	static char str[STR_SIZE];
 	sprintf(str,"\x1b[%u;%uH",r,c);
 	fputs(str,stdout);
