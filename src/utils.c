@@ -19,7 +19,7 @@ int check_potential(MDSystem *sys, const char* filename) {
 		fprintf(f,"%f %f %f\n", r, U_get(sys->potential,r), F_get(sys->potential,r));
 	}
 	fclose(f);
-	printf("Potential (and force) values saved to %s)\n", filename);
+	printf("Potential (and force) values saved to %s\n", filename);
 	printf("...format of each row: (r) (U) (F)\n");
 	return 0;
 }
