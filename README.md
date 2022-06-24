@@ -3,7 +3,7 @@
 ## Project Description
 Molecular simulation code written from scratch in C as coursework for [24-623: Molecular Simulation of Materials](https://www.meche.engineering.cmu.edu/education/courses/24-623.html).
 
-Provides functionality for running MD simulations in NVE or NVT, complete with material property logging, user-defined potentials, particle trajectory output, and more. MC simulation is also included.
+Provides functionality for running MD simulations in NVE or NVT, complete with material property logging, user-defined potentials, particle trajectory output, and more. MC simulation is also included. A more comprehensive list of features is below.
 
 
 The units for all quantities are dimensionless "Lennard-Jones" units, each derived in terms of the base units of length, mass, and energy. [HOOMD-Blue's documentation](https://hoomd-blue.readthedocs.io/en/stable/units.html) has some examples of this.
@@ -45,7 +45,7 @@ The units for all quantities are dimensionless "Lennard-Jones" units, each deriv
 
 
 ## Usage
-The code can be compiled on Windows using `mingw32-make`.
+The code can be compiled on Windows using `mingw32-make`.  
 Run `test.bat` to both compile and run the executable.
 
 
@@ -69,11 +69,11 @@ sys_random_velocities(&sys, 1.773);      // Randomize particle speeds to about 1
 
 sys_set_dt(&sys, 0.002);                 // Set time step to 0.002 time units
 sys_nvt_ensemble(&sys, temp, 0.05);      // Set system ensemble to NVT with tau = 0.05 time units
-sys_run(&sys, 50000, 50);                // Run in NVT for 50,000 steps; print progress every 50 steps
+sys_run(&sys, 50000, 50);                // Run NVT 50,000 steps; print progress every 50 steps
 
 sys_zero_trupos(&sys);                   // Reset mean-squared-displacement particle locations
 sys_nve_ensemble(&sys);                  // Set system ensemble to NVE
-sys_run(&sys, 50000, 50);                // Run in NVE for 50,000 steps; print progress every 50 steps
+sys_run(&sys, 50000, 50);                // Run NVE 50,000 steps; print progress every 50 steps
 
 sys_destroy(&sys);                       // Free the system and close log/trajectory files
 ```
@@ -81,19 +81,19 @@ sys_destroy(&sys);                       // Free the system and close log/trajec
 ### MC Simulation
 This example shows a basic MC simulation.
 ```
-MDSystem sys;                               // Create system
-sys_init(&sys);                             // Initialize system with default Lennard-Jones potential
+MDSystem sys;                          // Create system
+sys_init(&sys);                        // Initialize system with default LJ potential
 
-io_load_txt(&sys,"liquid256.txt");          // Load particles locations from file "liquid256.txt"
-sys_set_boxlen(&sys, 6.8);                  // Periodic boundary with box side lengths 6.8
-log_init(&sys, 1, "log.txt");               // Output material properties to "log.txt" every 1 step
+io_load_txt(&sys,"liquid256.txt");     // Load particles locations from file "liquid256.txt"
+sys_set_boxlen(&sys, 6.8);             // Periodic boundary with box side lengths 6.8
+log_init(&sys, 1, "log.txt");          // Output material properties to "log.txt" every 1 step
 
-sys_run_mc(&sys, 0.831716, 0.1, 2.5e6, 0);  // Run a Monte Carlo simulation...
-                                            //   Dimensionless temperature:  kT = 0.831716
-                                            //   Max particle perturbation:  dr = 0.1
-                                            //   2,500,000 steps
-                                            //   0 --> Do not print progress
+sys_run_mc(&sys,                       // Run a Monte Carlo simulation...
+           0.831716,                   //   Dimensionless temperature:  kT = 0.831716
+           0.1,                        //   Max particle perturbation:  dr = 0.1
+           2.5e6,                      //   2,500,000 steps
+           0);                         //   0 --> Do not print progress
                                             
-io_export_xyz(&sys, "final_snapshot.xyz");  // Output final particle locations
-sys_destroy(&sys);                          // Free the system and close log file
+io_export_xyz(&sys, "snapshot.xyz");   // Output final particle locations
+sys_destroy(&sys);                     // Free the system and close log file
 ```
