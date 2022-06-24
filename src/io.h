@@ -1,5 +1,5 @@
-#ifndef _IO_H_
-#define _IO_H_
+#ifndef IO_H
+#define IO_H
 
 #define NUM_CHARS_TO_BUFFER 32
 #define IS_NUM_CHAR(c) ((current=='-') || (current == '.') || (current>='0' && current <='9'))

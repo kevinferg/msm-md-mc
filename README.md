@@ -3,7 +3,7 @@
 ## Project Description
 Molecular simulation code written from scratch in C as coursework for [24-623: Molecular Simulation of Materials](https://www.meche.engineering.cmu.edu/education/courses/24-623.html).
 
-Provides functionality for running MD simulations, complete with multiple ensembles, user-definable potentials, material property logging, particle trajectory output, and more. MC simulation is also included. A more comprehensive list of features is below.
+Provides functionality for running MD simulations, complete with multiple thermodynamic ensembles, user-definable potentials, material property logging, particle trajectory output, and more. MC simulation is also included. A more comprehensive list of features is below.
 
 
 The units for all quantities are dimensionless "Lennard-Jones" units, each derived in terms of the base units of length, mass, and energy. [HOOMD-Blue's documentation](https://hoomd-blue.readthedocs.io/en/stable/units.html) has some examples of this.

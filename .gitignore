@@ -37,6 +37,9 @@
 *.x86_64
 *.hex
 
+bin/*
+!bin/.gitkeep
+
 # Debug files
 *.dSYM/
 *.su

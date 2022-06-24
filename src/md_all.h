@@ -1,5 +1,5 @@
-#ifndef _MD_ALL_H_
-#define _MD_ALL_H_
+#ifndef MD_ALL_H
+#define MD_ALL_H
 
 #include "types.h"
 #include "particle.h"
