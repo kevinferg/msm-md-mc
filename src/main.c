@@ -8,16 +8,16 @@ double check_potential(MDSystem *sys);
 int run_at_temp(double temp, int num);
 
 int main(int argc, char** argv){
-	MDSystem sys;
-	sys_init(&sys);
-	io_load_txt(&sys,"liquid256.txt");
-	sys_set_boxlen(&sys, 6.8);
-	log_init(&sys,1,"mc_test_log3.txt");
-	srand(1);
-	sys_run_mc(&sys, 0.831716, 0.1, 2.5e6,0);
-	io_export_xyz(&sys, "mc_final_frame2.xyz");
-	sys_destroy(&sys);
-	printf("MC: Success.\n");
+	// MDSystem sys;
+	// sys_init(&sys);
+	// io_load_txt(&sys,"liquid256.txt");
+	// sys_set_boxlen(&sys, 6.8);
+	// log_init(&sys,1,"mc_test_log3.txt");
+	// srand(1);
+	// sys_run_mc(&sys, 0.831716, 0.1, 100,1);
+	// io_export_xyz(&sys, "mc_final_frame2.xyz");
+	// sys_destroy(&sys);
+	// printf("MC: Success.\n");
 
 	
 	run_at_temp(0.831716,100);
@@ -49,11 +49,11 @@ int run_at_temp(double temp, int num){
 	
 	sys_set_dt(&sys,0.002);
 	sys_nvt_ensemble(&sys,temp,0.05);
-	sys_run(&sys,50000,50);
+	sys_run(&sys,5000,50);
 	
 	sys_zero_trupos(&sys);
 	sys_nve_ensemble(&sys);
-	sys_run(&sys,50000,50);
+	sys_run(&sys,5000,50);
 	
 	
 	sys_destroy(&sys);

@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <windows.h>
 #include <time.h>
 #include <math.h>
 
@@ -14,7 +13,7 @@
 #include "logging.h"
 #include "io.h"
 
-double random(double lower, double upper){
+double rand_double(double lower, double upper){
 	double number;
 	
 	number = (double) ((double) rand()/ (double) RAND_MAX);
@@ -72,9 +71,9 @@ int sys_random_velocities(MDSystem* sys,double A){
 	int i;
 	Vec3 vel;
 	for (i=0; i<sys->N_particles; i++){
-		vel.x = random(-A,A);
-		vel.y = random(-A,A);
-		vel.z = random(-A,A);
+		vel.x = rand_double(-A,A);
+		vel.y = rand_double(-A,A);
+		vel.z = rand_double(-A,A);
 		pt_set_vel(&(sys->particles[i]),&vel);
 	}
 	
@@ -204,7 +203,9 @@ int sys_run(MDSystem* sys, long numsteps,int progress){
 			if (!((sys->time_steps) % progress)){
 				time = ((double) clock()-t)/CLOCKS_PER_SEC;
 				time_left = (long) ((double)(numsteps-i)*time / (double) (i+1));
-				printf("\rProgress: %4.1f%%,    Est. time remaining: %3dmin %2dsec",100.*(double) (i+1)/(double) numsteps, time_left/60, time_left%60);
+				printf("\rProgress: %4.1f%%,    Est. time remaining: %3dmin %2dsec",
+				       100.*(double) (i+1)/(double) numsteps, 
+					   (int) time_left / 60, (int) time_left % 60);
 			}
 		}
 		
@@ -215,7 +216,8 @@ int sys_run(MDSystem* sys, long numsteps,int progress){
 	
 	time = ((double) clock()-t)/CLOCKS_PER_SEC;
 	(sys->runtime) += time;
-	if (progress>0) printf("\rDone.    Time elapsed: %3dmin %2dsec                               \n", ((long) time)/60, ((long) time)%60);
+	if (progress>0) printf("\rDone.    Time elapsed: %3dmin %2dsec                               \n",
+	                       (int) ((long) time)/60, (int) ((long) time)%60);
 		
 	return(0);
 }
@@ -315,7 +317,7 @@ int sys_rescale(MDSystem* sys, Vec3 *new_L){
 
 
 
-int sys_run_mc(MDSystem* sys, double kT, double maxstep,unsigned long numsteps,int verbose){
+int sys_run_mc(MDSystem* sys, double kT, double maxstep,unsigned long numsteps,int verbose) {
 	unsigned long i;
 	int j,axis;
 	double virial, old_virial_part, new_virial_part;
@@ -329,7 +331,8 @@ int sys_run_mc(MDSystem* sys, double kT, double maxstep,unsigned long numsteps,i
 	clock_t t;
 	t = clock();
 	
-	printf("Running MC with a max step of %f in x, y, and z\n at kT=%f for %u steps\n\n",maxstep,kT,numsteps);
+	printf("Running MC with a max step of %f in x, y, and z\n at kT=%f for %lu steps\n\n",
+	       maxstep, kT, numsteps);
 	
 	int particle_id;
 	Particle p, *p1, *p2;
@@ -340,18 +343,21 @@ int sys_run_mc(MDSystem* sys, double kT, double maxstep,unsigned long numsteps,i
 	
 	for (i=0;i<numsteps;i++){
 		// Select random particle to perturb
-		particle_id = (unsigned int) random((double) 0,(double) sys->N_particles);
+		particle_id = (unsigned int) rand_double((double) 0,(double) sys->N_particles);
 		particle_id = (particle_id<sys->N_particles)?particle_id:sys->N_particles-1;		p1 = &((sys->particles)[particle_id]);
 		pt_set_pos(&p,&(p1->pos));
 		
 		// Calculate trial move as perturbed particle location
 		for (axis=0;axis<3;axis++){
-			(p.pos.V[axis]) += random(-maxstep,maxstep);
+			(p.pos.V[axis]) += rand_double(-maxstep,maxstep);
 		}
 		
-		if (verbose) printf("\n\n----- Iteration: %d -----\n",i);
-		if (verbose) printf("Particle to perturb: %d\n",particle_id);
-		if (verbose) printf(" Original location: [%6.3f,%6.3f,%6.3f]\n",p1->pos.x,p1->pos.y,p1->pos.z);
+		if (verbose) {
+			printf("\n\n----- Iteration: %lu -----\n", i);
+		    printf("Particle to perturb: %d\n", particle_id);
+		    printf(" Original location: [%6.3f,%6.3f,%6.3f]\n",
+			       p1->pos.x, p1->pos.y, p1->pos.z);
+		}
 		calc_correct_position(sys, &p); //Wrap across PBCs
 		if (verbose) printf("  Trial   location: [%6.3f,%6.3f,%6.3f]\n",p.pos.x,p.pos.y,p.pos.z);
 		
@@ -364,14 +370,14 @@ int sys_run_mc(MDSystem* sys, double kT, double maxstep,unsigned long numsteps,i
 		dU = U_trial-U_current;
 		prob = exp(-1./kT*dU);
 		prob = (prob>1.)?1.:prob;
-		if (verbose) printf("dU = %f --> Probability: %f\n",dU,prob);
+		if (verbose) printf("dU = %f --> Probability: %f\n", dU, prob);
 		
 		
 		
 		// Accept or reject and update particle position and total energy
-		randnum = random(0.,1.);
+		randnum = rand_double(0., 1.);
 		if (randnum<prob){
-			if (verbose) printf("Random number %f --> ACCEPT trial move\n",randnum);
+			if (verbose) printf("Random number %f --> ACCEPT trial move\n", randnum);
 			accepts++;
 			old_virial_part = calc_single_virial(sys,particle_id);
 			pt_set_pos(p1,&(p.pos));
@@ -381,14 +387,12 @@ int sys_run_mc(MDSystem* sys, double kT, double maxstep,unsigned long numsteps,i
 			pressure = calc_system_pressure(sys,kT,virial);
 			
 		} else {
-			if (verbose) printf("rand = %f --> REJECT trial move\n",randnum);
+			if (verbose) printf("Random number %f --> REJECT trial move\n",randnum);
 		}
-		fprintf(sys->log_file,"%d %f %f\n",i,U,pressure);
+		fprintf(sys->log_file,"%lu %f %f\n", i, U, pressure);
 		
 		if (verbose) printf("Energy:   U = %f\n",U);
 		if (verbose) printf("Pressure: P = %f\n",pressure);
-		
-		
 		
 		U_avg += U/((double) numsteps);
 		pressure_avg += pressure/((double) numsteps);
@@ -399,12 +403,12 @@ int sys_run_mc(MDSystem* sys, double kT, double maxstep,unsigned long numsteps,i
 	(sys->runtime) += time;
 	
 	printf("\n\n----------RESULTS-----------\n");
-	printf("%d accepts of %d total steps\n",accepts,numsteps);
-	printf("Time elapsed: %0.1f seconds\n",time);
+	printf("%lu accepts of %lu total steps\n", accepts, numsteps);
+	printf("Time elapsed: %0.1f seconds\n", time);
 	
 	
-	printf("Average energy: %f\n",U_avg);
-	printf("Average pressure: %f\n",pressure_avg);
+	printf("Average energy: %f\n", U_avg);
+	printf("Average pressure: %f\n", pressure_avg);
 	
 	return 0;
 	
