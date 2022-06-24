@@ -4,11 +4,11 @@
 #include <math.h>
 
 #include "types.h"
-#include "vec_stuff.h"
-#include "verlet_stuff.h"
-#include "particle_stuff.h"
-#include "potential_stuff.h"
-#include "system_stuff.h"
+#include "vector.h"
+#include "verlet.h"
+#include "particle.h"
+#include "potentials.h"
+#include "system.h"
 #include "calculations.h"
 #include "logging.h"
 #include "io.h"

@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <math.h>
 #include "types.h"
-#include "potential_stuff.h"
+#include "potentials.h"
 
 
 

@@ -4,8 +4,8 @@
 #include "types.h"
 #include "logging.h"
 #include "calculations.h"
-#include "system_stuff.h"
-#include "vec_stuff.h"
+#include "system.h"
+#include "vector.h"
 
 int log_init(MDSystem* sys, int every, const char* filename) {
 	if (every < 1){

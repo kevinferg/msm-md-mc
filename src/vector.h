@@ -1,5 +1,5 @@
-#ifndef _VEC_STUFF_H_
-#define _VEC_STUFF_H_
+#ifndef VECTOR_H
+#define VECTOR_H
 
 #include "types.h"
 

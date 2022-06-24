@@ -3,11 +3,11 @@
 
 #include "calculations.h"
 #include "types.h"
-#include "vec_stuff.h"
-#include "particle_stuff.h"
-#include "system_stuff.h"
-#include "potential_stuff.h"
-#include "verlet_stuff.h"
+#include "vector.h"
+#include "particle.h"
+#include "system.h"
+#include "potentials.h"
+#include "verlet.h"
 
 int vv_step(MDSystem* sys){
 	if (sys->nvt_on){
