@@ -44,7 +44,7 @@ int log_print_line(MDSystem* sys) {
 	pressure = calc_system_pressure(sys,kT,sys->virial);
 
 	fprintf(sys->log_file,"%d %f %f %f %f %f %f %f\n",//  %f %f %f\n",
-			ts,t,
+			(int) ts,t,
 			K,U,K+U,kT,pressure,msd);
 	return 0;
 }

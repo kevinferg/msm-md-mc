@@ -121,7 +121,7 @@ int io_export_pdb(MDSystem* sys,const char* filename) {
 }
 
 
-int io_export_xyz(MDSystem* sys, const char* filename){
+int io_export_xyz(MDSystem* sys, const char* filename) {
 	FILE *f;
 	
 	f = fopen(filename, "w");
@@ -146,7 +146,7 @@ int anim_export_frame(MDSystem* sys) {
 	FILE* f = sys->anim_file;
 	int i;
 
-	fprintf(f,"%d\n%d\n",sys->N_particles,sys->time_steps/sys->anim_every);
+	fprintf(f,"%d\n%d\n",sys->N_particles,(int) sys->time_steps/sys->anim_every);
 
 	for(i=0;i<sys->N_particles;i++) {
 		fprintf(f,"%d %f %f %f\n",i,
