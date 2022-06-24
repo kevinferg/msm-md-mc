@@ -5,20 +5,23 @@
 
 
 
-double F_lj(double r,double* params){
+double F_lj(double r, double* params){
 	double eps = params[0];
 	double sig = params[1];
-	double r6 = pow(r,6.);
-	double s6 = pow(sig,6.);
+	double r6 = r * r * r;//pow(r,6.);
+	double s6 = sig * sig * sig;//pow(sig,6.);
+	r6 *= r6;
+	s6 *= s6;
 
 	return -24.*s6*eps*(r6-2.*s6)/r6/r6/r;
 }
 
-double U_lj(double r,double* params){
+double U_lj(double r, double* params){
 	double eps = params[0];
 	double sig = params[1];
 	double s_over_r = sig/r;
-	double sr6 = pow(s_over_r,6.);
+	double sr6 = s_over_r * s_over_r * s_over_r;//pow(s_over_r,6.);
+	sr6 *= sr6;
 
 	return 4.*eps*sr6*(sr6-1.);
 }
