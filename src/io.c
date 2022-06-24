@@ -4,9 +4,9 @@
 #include "types.h"
 #include "calculations.h"
 #include "io.h"
-#include "system_stuff.h"
-#include "particle_stuff.h"
-#include "vec_stuff.h"
+#include "system.h"
+#include "particle.h"
+#include "vector.h"
 
 static int count_numbers(FILE* f);
 static int next_number(FILE* f, double *val);

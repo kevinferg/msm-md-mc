@@ -1,8 +1,8 @@
 #include <stdio.h>
 
 #include "types.h"
-#include "vec_stuff.h"
-#include "particle_stuff.h"
+#include "vector.h"
+#include "particle.h"
 
 
 int pt_set_force(Particle *pt,Vec3 *vec){

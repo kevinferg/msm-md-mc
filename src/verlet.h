@@ -1,5 +1,5 @@
-#ifndef _VERLET_STUFF_H_
-#define _VERLET_STUFF_H_
+#ifndef VERLET_H
+#define VERLET_H
 
 #include "types.h"
 

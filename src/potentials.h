@@ -1,5 +1,5 @@
-#ifndef _POTENTIAL_STUFF_H_
-#define _POTENTIAL_STUFF_H_
+#ifndef POTENTIALS_H
+#define POTENTIALS_H
 
 #include "types.h"
 

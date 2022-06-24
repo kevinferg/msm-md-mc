@@ -1,5 +1,5 @@
-#ifndef _PARTICLE_STUFF_H_
-#define _PARTICLE_STUFF_H_
+#ifndef PARTICLE_H
+#define PARTICLE_H
 
 #include "types.h"
 

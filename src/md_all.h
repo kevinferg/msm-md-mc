@@ -2,11 +2,11 @@
 #define _MD_ALL_H_
 
 #include "types.h"
-#include "particle_stuff.h"
-#include "system_stuff.h"
-#include "verlet_stuff.h"
-#include "potential_stuff.h"
-#include "vec_stuff.h"
+#include "particle.h"
+#include "system.h"
+#include "verlet.h"
+#include "potentials.h"
+#include "vector.h"
 #include "calculations.h"
 #include "visualize.h"
 #include "logging.h"

@@ -1,5 +1,5 @@
-#ifndef _SYSTEM_STUFF_H_
-#define _SYSTEM_STUFF_H_
+#ifndef SYSTEM_H
+#define SYSTEM_H
 
 #define INITIALIZED 1417
 

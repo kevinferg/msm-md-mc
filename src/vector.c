@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include "types.h"
-#include "vec_stuff.h"
+#include "vector.h"
 
 Vec3 ZERO_VEC = {.x=0.,.y=0.,.z=0.};
 

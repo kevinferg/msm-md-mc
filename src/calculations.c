@@ -2,11 +2,11 @@
 #include <stdlib.h>
 #include "math.h"
 #include "types.h"
-#include "vec_stuff.h"
+#include "vector.h"
 #include "calculations.h"
-#include "potential_stuff.h"
-#include "system_stuff.h"
-#include "particle_stuff.h"
+#include "potentials.h"
+#include "system.h"
+#include "particle.h"
 
 double wrap_nearest(double number, double reference, double range){
 	double alt = (number<reference)?(number+range):(number-range);
