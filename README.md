@@ -3,7 +3,7 @@
 ## Project Description
 Molecular simulation code written from scratch in C as coursework for [24-623: Molecular Simulation of Materials](https://www.meche.engineering.cmu.edu/education/courses/24-623.html).
 
-Provides functionality for running MD simulations in NVE or NVT, complete with material property logging, user-defined potentials, particle trajectory output, and more. MC simulation is also included. A more comprehensive list of features is below.
+Provides functionality for running MD simulations, complete with multiple ensembles, user-definable potentials, material property logging, particle trajectory output, and more. MC simulation is also included. A more comprehensive list of features is below.
 
 
 The units for all quantities are dimensionless "Lennard-Jones" units, each derived in terms of the base units of length, mass, and energy. [HOOMD-Blue's documentation](https://hoomd-blue.readthedocs.io/en/stable/units.html) has some examples of this.
@@ -15,10 +15,9 @@ The units for all quantities are dimensionless "Lennard-Jones" units, each deriv
 - NVT (canonical) Molecular Dynamics simulations using the Nos&#x00E9;-Hoover thermostat
 - Markov Chain Monte Carlo simulations using the [Rosenbluth-Metropolis-Hastings Algorithm](https://en.wikipedia.org/wiki/Metropolis%E2%80%93Hastings_algorithm)
 
-#### Measurement
+#### Measurements
 - Measure the following properties of the system instantaneously:
   - Temperature and pressure
-  - Volume and density
   - Kinetic energy, potential energy, and Hamiltonian
   - Mean squared displacement (MSD)
   - x-, y-, and z-components of momentum and center of mass
@@ -37,10 +36,11 @@ The units for all quantities are dimensionless "Lennard-Jones" units, each deriv
 
 
 #### Other features
-- Built-in cutoff radius for potentials
-- Periodic boundary conditions (with optionally separate components)
+- Built-in shifting cutoff radius support for potentials
+- Periodic boundary conditions (with distinct xyz-components)
 - Randomize particle velocities to match a target value
-- Set number density of the system
+- Set the number density of the system
+- Particles can have non-uniform mass
 - Basic live system rendering on the terminal during a simulation
 
 
@@ -53,7 +53,7 @@ Run `test.bat` to both compile and run the executable.
 ## Examples
 
 ### MD Simulation
-This snippet demonstrates how to create an NVT simulation. To measure properties, it is recommended to let the system equilibrate in NVT, then turn off the thermostat to run in NVE, and log system properties there, as seen in this example.
+This snippet demonstrates how to create an MD simulation in the NVT ensemble. To measure properties, it is recommended to let the system equilibrate in NVT, then turn off the thermostat to run in NVE, and log system properties there, as seen in this example.
 ```
 MDSystem sys;                            // Create system
 sys_init(&sys);                          // Initialize system with default Lennard-Jones potential
