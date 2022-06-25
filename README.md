@@ -1,5 +1,12 @@
 # Molecular Simulation of Materials: <br/> Basic Molecular Dynamics and Monte Carlo Simulations
 
+<p align="center">
+  <img alt="Visualization made in OVITO" src="fig/ovito_animation.gif">
+  Visualization of results, made using ![OVITO](https://www.ovito.org/).
+</p>
+
+
+
 ## Project Description
 Molecular simulation code written from scratch in C as coursework for [24-623: Molecular Simulation of Materials](https://www.meche.engineering.cmu.edu/education/courses/24-623.html).
 
