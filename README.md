@@ -1,9 +1,5 @@
 # Molecular Simulation of Materials: <br/> Basic Molecular Dynamics and Monte Carlo Simulations
 
-<p align="center"><img alt="Visualization made in OVITO" src="fig/ovito_animation.gif"></p>
-<p align="center">Visualization of results, made using <a href="https://www.ovito.org/">OVITO</a>.</p>
-
-
 
 ## Project Description
 Molecular simulation code written from scratch in C as coursework for [24-623: Molecular Simulation of Materials](https://www.meche.engineering.cmu.edu/education/courses/24-623.html).
@@ -12,6 +8,26 @@ Provides functionality for running MD simulations, complete with multiple thermo
 
 
 The units for all quantities are dimensionless "Lennard-Jones" units, each derived in terms of the base units of length, mass, and energy. [HOOMD-Blue's documentation](https://hoomd-blue.readthedocs.io/en/stable/units.html) has some examples of this.
+
+---
+
+## Demonstration
+Simulating 256 particles (argon) at 100K.
+
+### Molecular Dynamics
+MD simulations output a trajectory animation file and a log of material properties.
+
+<p align="center"><img alt="Visualization made in OVITO" src="fig/ovito_animation.gif"></p>
+<p align="center">Visualization made using <a href="https://www.ovito.org/">OVITO</a>.</p>
+
+Plotting potential energy and pressure of the system over time:
+<p align="center"><img alt="MD properties" src="fig/MD_plot.png"></p>
+
+### Monte Carlo
+Simulating the same material using MC, we get the same results:
+<p align="center"><img alt="MC properties" src="fig/MC_plot.png"></p>
+
+---
 
 ## Features
 
@@ -48,6 +64,7 @@ The units for all quantities are dimensionless "Lennard-Jones" units, each deriv
 - Particles can have non-uniform mass
 - Basic live system rendering on the terminal during a simulation
 
+---
 
 ## Usage
 Put main simulation code in `src/main.c`.  
@@ -59,6 +76,8 @@ And then run with:
 ```
 ./bin/simulate
 ```
+
+---
 
 ## Examples
 
