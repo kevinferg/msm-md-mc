@@ -1,7 +1,7 @@
 # Molecular Simulation of Materials: <br/> Basic Molecular Dynamics and Monte Carlo Simulations
 
 <p align="center"><img alt="Visualization made in OVITO" src="fig/ovito_animation.gif"></p>
-<p align="center">Visualization of results, made using [OVITO](https://www.ovito.org/).</p>
+<p align="center">Visualization of results, made using <a href="https://www.ovito.org/">OVITO</a>.</p>
 
 
 
