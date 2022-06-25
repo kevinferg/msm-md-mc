@@ -59,3 +59,7 @@ dkms.conf
 *.xyz
 *.log
 *log*.txt
+
+
+# IDE config
+.vscode/
