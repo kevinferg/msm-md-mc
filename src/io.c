@@ -131,8 +131,8 @@ int io_export_xyz(MDSystem* sys, const char* filename) {
 	}
 	int i;
 	fprintf(f,"%d\n",sys->N_particles);
-	for(i=0;i<sys->N_particles;i++) {
-		fprintf(f,"\nC %f %f %f",
+	for(i=0; i<sys->N_particles; i++) {
+		fprintf(f,"\n%d %f %f %f", i,
 		sys->particles[i].pos.x,
 		sys->particles[i].pos.y,
 		sys->particles[i].pos.z);
@@ -148,8 +148,8 @@ int anim_export_frame(MDSystem* sys) {
 
 	fprintf(f,"%d\n%d\n",sys->N_particles,(int) sys->time_steps/sys->anim_every);
 
-	for(i=0;i<sys->N_particles;i++) {
-		fprintf(f,"%d %f %f %f\n",i,
+	for(i=0; i<sys->N_particles; i++) {
+		fprintf(f,"%d %f %f %f\n", i,
 		sys->particles[i].pos.x,
 		sys->particles[i].pos.y,
 		sys->particles[i].pos.z);
