@@ -8,26 +8,29 @@
 double F_lj(double r, double* params){
 	double eps = params[0];
 	double sig = params[1];
-	double r6 = r * r * r;//pow(r,6.);
-	double s6 = sig * sig * sig;//pow(sig,6.);
-	r6 *= r6;
-	s6 *= s6;
 
-	return -24.*s6*eps*(r6-2.*s6)/r6/r6/r;
+	double r3 = r * r * r;
+	double r6 = r3 * r3;
+	double r12 = r6 * r6;
+
+	double s3 = sig * sig * sig;
+	double s6 = s3 * s3;
+
+	return -24.*s6*eps*(r6-2.*s6)/r12/r;
 }
 
 double U_lj(double r, double* params){
 	double eps = params[0];
 	double sig = params[1];
 	double s_over_r = sig/r;
-	double sr6 = s_over_r * s_over_r * s_over_r;//pow(s_over_r,6.);
-	sr6 *= sr6;
+	double sr3 = s_over_r * s_over_r * s_over_r;
+	double sr6 = sr3 * sr3;
 
 	return 4.*eps*sr6*(sr6-1.);
 }
 
 
-int potential_init(Potential* potential, double r_cut, dist_fun pot_fun, dist_fun frc_fun,double* params){
+int potential_init(Potential* potential, double r_cut, dist_fun pot_fun, dist_fun frc_fun, double* params){
 	potential->U_fun = pot_fun;
 	potential->F_fun = frc_fun;
 	potential->params = params;
@@ -35,7 +38,6 @@ int potential_init(Potential* potential, double r_cut, dist_fun pot_fun, dist_fu
 	potential->r_cut = r_cut;
 	potential->U_cut = (*pot_fun) (r_cut,params);
 	potential->F_cut = (*frc_fun) (r_cut,params);
-	
 	
 	return 0;
 }
@@ -51,8 +53,6 @@ double U_get(Potential* potential,double r){
 	return (r>potential->r_cut)? 0 :
 		(*(potential->U_fun)) (r, potential->params) - potential->U_cut + (r-potential->r_cut)*potential->F_cut;
 }
-
-
 
 double F_harmonic(double r,double* params){
 	double k = params[0];

@@ -81,6 +81,8 @@ And then run with:
 
 ## Examples
 
+The following are examples of how common routines can be implemented. These are all in [examples/](examples/).
+
 ### MD Simulation
 This snippet demonstrates how to create an MD simulation in the NVT ensemble. To measure properties, it is recommended to let the system equilibrate in NVT, then turn off the thermostat to run in NVE, and log system properties there, as seen in this example.
 ```
@@ -130,3 +132,48 @@ sys_destroy(&sys);                     // Free the system and close log file
 ```
 
 The function [`mc_simulation()`](src/utils.c) does all of this in one step.
+
+### Custom Potential
+This example demonstrates how to create a user-defined pair potential and apply it to a system. Consider a [Morse potential](https://en.wikipedia.org/wiki/Morse_potential) given by:  
+
+$ U(r) = D_e \left(1 - e^{-a(r - r_{e})} \right)^2, $  
+
+where $r$ is center-to-center distance, $D_e$ is well depth, $a$ describes well width, and $r_e$ is equilibrium distance. First, we define an energy function and a force function, both in the form `double potential_function(double r, double* params)`, with free parameters (in this case $D_e$, $a$, and $r_e$) in the `params` array:
+
+```
+double U_morse(double r, double* params) {
+    double De = params[0];   // Well depth
+    double a = params[1];    // Well width
+    double r_eq = params[2]; // Equilibrium bond distance
+    double part = 1 - exp(a * (r_eq - r));
+    return De * part * part;
+}
+
+double F_morse(double r, double* params) {
+    double De = params[0];   // Well depth
+    double a = params[1];    // Well width
+    double r_eq = params[2]; // Equilibrium bond distance
+    double part = exp(a * (r_eq - r));
+    return -2 * a * De * part * (1 - part);
+}
+```
+
+Then, the potential can be applied to each particle pair in a system:
+
+```
+MDSystem sys;                      // Create system
+sys_init(&sys);                    // Initialize system 
+                                   // (with default LJ potential)
+
+Potential morse;                   // Create a new potential
+potential_init(&morse,             // Assign the potential:
+               2.5,                // - Cutoff radius: 2.5
+               &U_morse, &F_morse, // - Energy and Force functions
+  (double[3])  {1, 4, 1.1});       // - Morse params: De, a, r_eq
+
+sys.potential = &morse;            // Apply our new Morse potential
+                                   // to each pair in the system
+
+/* Export [r, U, F] table to potential.log */
+check_potential(&sys, "potential.log");
+```
