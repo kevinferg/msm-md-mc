@@ -102,8 +102,8 @@ int nve_step(MDSystem* sys) {
 
 int nve_update_velocities(MDSystem *sys) {
 	/* Updates 1/2 step as in Velocity Verlet method */
-	int i=0;
-	double m,dt_over_2m;
+	int i = 0;
+	double m, dt_over_2m;
 	Vec3 update;
 	Particle* p;
 	for (i = 0; i < sys->N_particles; i++) {

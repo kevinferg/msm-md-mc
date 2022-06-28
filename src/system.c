@@ -25,7 +25,7 @@ double rand_double(double lower, double upper) {
 int sys_zero_forces(MDSystem *sys) {
 	int i;
 	for (i=0; i<sys->N_particles; i++){
-		pt_set_force(&(sys->particles[i]),&ZERO_VEC);
+		pt_set_force(&(sys->particles[i]), &ZERO_VEC);
 	}
 	return 0;
 }
@@ -41,7 +41,7 @@ int sys_unit_masses(MDSystem *sys) {
 int sys_zero_positions(MDSystem* sys) {
 	int i;
 	for (i=0; i<sys->N_particles; i++){
-		pt_set_pos(&(sys->particles[i]),&ZERO_VEC);
+		pt_set_pos(&(sys->particles[i]), &ZERO_VEC);
 	}
 	return 0;
 }
@@ -336,14 +336,14 @@ int sys_run_mc(MDSystem* sys, double kT, double maxstep,unsigned long numsteps,i
 	pressure = calc_system_pressure(sys,kT,virial);
 	U = calc_system_potential(sys);
 	
-	for (i=0;i<numsteps;i++){
+	for (i = 0; i < numsteps; i++) {
 		// Select random particle to perturb
 		particle_id = (unsigned int) rand_double((double) 0,(double) sys->N_particles);
 		particle_id = (particle_id<sys->N_particles)?particle_id:sys->N_particles-1;		p1 = &((sys->particles)[particle_id]);
 		pt_set_pos(&p,&(p1->pos));
 		
 		// Calculate trial move as perturbed particle location
-		for (axis=0;axis<3;axis++){
+		for (axis=0; axis<3; axis++){
 			(p.pos.V[axis]) += rand_double(-maxstep,maxstep);
 		}
 		
@@ -353,7 +353,7 @@ int sys_run_mc(MDSystem* sys, double kT, double maxstep,unsigned long numsteps,i
 		    printf(" Original location: [%6.3f,%6.3f,%6.3f]\n",
 			       p1->pos.x, p1->pos.y, p1->pos.z);
 		}
-		calc_correct_position(sys, &p); //Wrap across PBCs
+		calc_correct_position(sys, &p); // Wrap across PBCs
 		if (verbose) printf("  Trial   location: [%6.3f,%6.3f,%6.3f]\n",p.pos.x,p.pos.y,p.pos.z);
 		
 		// Calc energies for that particle in these 2 states
@@ -382,7 +382,7 @@ int sys_run_mc(MDSystem* sys, double kT, double maxstep,unsigned long numsteps,i
 			pressure = calc_system_pressure(sys,kT,virial);
 			
 		} else {
-			if (verbose) printf("Random number %f --> REJECT trial move\n",randnum);
+			if (verbose) printf("Random number %f --> REJECT trial move\n", randnum);
 		}
 		fprintf(sys->log_file,"%lu %f %f\n", i, U, pressure);
 		

@@ -38,7 +38,7 @@ double F_lj(double r, double* params);
    params: 
    [0] = D_e, well depth
    [1] = a, well width (larger a = wider well)
-   [2] = r_eq, equilibrium distance */
+   [2] = r_e, equilibrium distance */
 double U_Morse(double r, double* params);
 double F_Morse(double r, double* params);
 
