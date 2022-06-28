@@ -56,7 +56,21 @@ double F_lj(double r, double* params){
 	return -24.*s6*eps*(r6-2.*s6)/r12/r;
 }
 
-
+/* Morse Potential */
+double U_Morse(double r, double* params) {
+    double De = params[0];   // Well depth
+    double a = params[1];    // Well width
+    double r_eq = params[2]; // Equilibrium bond distance
+    double part = 1 - exp(a * (r_eq - r));
+    return De * part * part;
+}
+double F_Morse(double r, double* params) {
+    double De = params[0];   // Well depth
+    double a = params[1];    // Well width
+    double r_eq = params[2]; // Equilibrium bond distance
+    double part = exp(a * (r_eq - r));
+    return -2 * a * De * part * (1 - part);
+}
 
 /* Harmonic Bond Potential */
 double U_harmonic(double r,double* params){

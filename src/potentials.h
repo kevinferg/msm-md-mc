@@ -34,6 +34,13 @@ double F_get(Potential* potential, double r);
 double U_lj(double r, double* params);
 double F_lj(double r, double* params);
 
+/* Morse Potential
+   params: 
+   [0] = D_e, well depth
+   [1] = a, well width (larger a = wider well)
+   [2] = r_eq, equilibrium distance */
+double U_Morse(double r, double* params);
+double F_Morse(double r, double* params);
 
 /* Harmonic Bond Potential
    params: 
