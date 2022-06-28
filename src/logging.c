@@ -43,7 +43,7 @@ int log_print_line(MDSystem* sys) {
 	kT = calc_system_temperature(sys,K);
 	pressure = calc_system_pressure(sys,kT,sys->virial);
 
-	fprintf(sys->log_file,"%d %f %f %f %f %f %f %f\n",//  %f %f %f\n",
+	fprintf(sys->log_file,"%d %f %f %f %f %f %f %f\n",
 			(int) ts,t,
 			K,U,K+U,kT,pressure,msd);
 	return 0;

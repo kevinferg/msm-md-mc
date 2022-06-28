@@ -49,15 +49,15 @@ Simulating the same material using MC, we get the same results:
 - Output particle locations as a .xyz or .pdb file
 - Output particle trajectories as a .xyz animation file
 
-
 #### Potentials
-- Lennard-Jones potential with variable $\ \varepsilon $ and $\ \sigma $
-- Harmonic bond (bonding is unfinished)
+- Built-in pair potentials with variable parameters
+  - Lennard-Jones potential
+  - Morse potential
+  - Harmonic bond (bond support is unfinished)
 - Potentials from user-specified functions
-
+- Built-in shifting cutoff radius support for potentials
 
 #### Other features
-- Built-in shifting cutoff radius support for potentials
 - Periodic boundary conditions (with distinct xyz-components)
 - Randomize particle velocities to match a target value
 - Set the number density of the system
@@ -142,19 +142,19 @@ where $r$ is center-to-center distance, $D_e$ is well depth, $a$ describes well 
 
 ```
 double U_morse(double r, double* params) {
-    double De = params[0];   // Well depth
-    double a = params[1];    // Well width
-    double r_eq = params[2]; // Equilibrium bond distance
-    double part = 1 - exp(a * (r_eq - r));
-    return De * part * part;
+    double D_e = params[0];  // Well depth
+    double a   = params[1];  // Well width
+    double r_e = params[2];  // Equilibrium bond distance
+    double part = 1 - exp(a * (r_e - r));
+    return D_e * part * part;
 }
 
 double F_morse(double r, double* params) {
-    double De = params[0];   // Well depth
-    double a = params[1];    // Well width
-    double r_eq = params[2]; // Equilibrium bond distance
-    double part = exp(a * (r_eq - r));
-    return -2 * a * De * part * (1 - part);
+    double D_e = params[0];  // Well depth
+    double a   = params[1];  // Well width
+    double r_e = params[2];  // Equilibrium bond distance
+    double part = exp(a * (r_e - r));
+    return -2 * a * D_e * part * (1 - part);
 }
 ```
 
@@ -169,7 +169,7 @@ Potential morse;                   // Create a new potential
 potential_init(&morse,             // Assign the potential:
                2.5,                // - Cutoff radius: 2.5
                &U_morse, &F_morse, // - Energy and Force functions
-  (double[3])  {1, 4, 1.1});       // - Morse params: De, a, r_eq
+  (double[3])  {1, 4, 1.1});       // - Morse params: D_e, a, r_e
 
 sys.potential = &morse;            // Apply our new Morse potential
                                    // to each pair in the system

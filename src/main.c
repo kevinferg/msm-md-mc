@@ -18,6 +18,8 @@ int main(int argc, char** argv) {
 				  100, 100, 10, 0); */
 	printf("MD: Success.\n\n"); fflush(stdout);
 
+
+
 	// Run a Monte Carlo simulation
 	mc_ex();
 	/* Equivalent to:
