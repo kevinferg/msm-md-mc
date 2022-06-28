@@ -31,4 +31,5 @@ int custom_potential_ex(void) {
 
     /* Export [r, U, F] table to potential.log */
 	check_potential(&sys, "potential.log");
+    return 0;
 }
