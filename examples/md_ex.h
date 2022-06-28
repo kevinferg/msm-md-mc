@@ -1,3 +1,5 @@
+#define MD_EXAMPLE_STEPS 100
+
 int md_ex(void) {
     MDSystem sys;                            // Create system
     sys_init(&sys);                          // Initialize system with default Lennard-Jones potential
@@ -12,12 +14,12 @@ int md_ex(void) {
                                             // (but keep zero overall momentum)
 
     sys_set_dt(&sys, 0.002);                 // Set time step to 0.002 time units
-    sys_nvt_ensemble(&sys, temp, 0.05);      // Set system ensemble to NVT with tau = 0.05 time units
-    sys_run(&sys, 50000, 50);                // Run NVT 50,000 steps; print progress every 50 steps
+    sys_nvt_ensemble(&sys, 0.83, 0.05);      // Set ensemble to NVT; T = 0.83, tau = 0.05
+    sys_run(&sys, MD_EXAMPLE_STEPS, 10);     // Run NVT some steps; print progress every 10 steps
 
     sys_zero_trupos(&sys);                   // Reset mean-squared-displacement particle locations
     sys_nve_ensemble(&sys);                  // Set system ensemble to NVE
-    sys_run(&sys, 50000, 50);                // Run NVE 50,000 steps; print progress every 50 steps
+    sys_run(&sys, MD_EXAMPLE_STEPS, 10);     // Run NVE some steps; print progress every 10 steps
 
     sys_destroy(&sys);                       // Free the system and close log/trajectory files
 

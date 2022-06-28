@@ -1,4 +1,6 @@
-int mx_ex(void) {
+#define MC_EXAMPLE_STEPS 100
+
+int mc_ex(void) {
     MDSystem sys;                          // Create system
     sys_init(&sys);                        // Initialize system with default LJ potential
 
@@ -9,7 +11,7 @@ int mx_ex(void) {
     sys_run_mc(&sys,                       // Run a Monte Carlo simulation...
             0.831716,                      //   Dimensionless temperature:  kT = 0.831716
             0.1,                           //   Max particle perturbation:  dr = 0.1
-            2.5e6,                         //   2,500,000 steps
+            MC_EXAMPLE_STEPS,              //   MC_EXAMPLE_STEPS steps
             0);                            //   0 --> Do not print progress
                                                 
     io_export_xyz(&sys, "snapshot.xyz");   // Output final particle locations

@@ -81,7 +81,7 @@ And then run with:
 
 ## Examples
 
-The following are examples of how common routines can be implemented. 
+The following are examples of how common routines can be implemented. These are all in [examples/](examples/).
 
 ### MD Simulation
 This snippet demonstrates how to create an MD simulation in the NVT ensemble. To measure properties, it is recommended to let the system equilibrate in NVT, then turn off the thermostat to run in NVE, and log system properties there, as seen in this example.
