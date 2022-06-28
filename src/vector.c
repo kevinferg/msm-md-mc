@@ -4,7 +4,7 @@
 #include "types.h"
 #include "vector.h"
 
-Vec3 ZERO_VEC = {.x=0.,.y=0.,.z=0.};
+Vec3 ZERO_VEC = {.x=0., .y=0., .z=0.};
 
 int vec_copy(Vec3 *src, Vec3 *dest){
 	dest->x = src->x;
@@ -36,8 +36,6 @@ int vec_get_diff(Vec3 *vecdiff, Vec3 *vec1, Vec3 *vec2){
 }
 
 double vec_get_mag(Vec3 *vec){
-	//return sqrt(pow(vec->x,2.)+pow(vec->y,2.)+pow(vec->z,2.));
-	// ^ The above takes way longer than the below:
 	return sqrt(vec->x * vec->x  +  vec->y * vec->y  +  vec->z * vec->z);
 }
 
