@@ -13,7 +13,7 @@
 #include "logging.h"
 #include "io.h"
 
-double rand_double(double lower, double upper){
+double rand_double(double lower, double upper) {
 	double number;
 	
 	number = (double) ((double) rand()/ (double) RAND_MAX);
@@ -22,49 +22,49 @@ double rand_double(double lower, double upper){
 	return number;
 }
 
-int sys_zero_forces(MDSystem *sys){
+int sys_zero_forces(MDSystem *sys) {
 	int i;
 	for (i=0; i<sys->N_particles; i++){
 		pt_set_force(&(sys->particles[i]),&ZERO_VEC);
 	}
-	return(0);
+	return 0;
 }
 
-int sys_unit_masses(MDSystem *sys){
+int sys_unit_masses(MDSystem *sys) {
 	int i;
 	for (i=0; i<sys->N_particles; i++){
 		pt_set_mass(&(sys->particles[i]),1.0);
 	}
-	return(0);
+	return 0;
 }
 
-int sys_zero_positions(MDSystem* sys){
+int sys_zero_positions(MDSystem* sys) {
 	int i;
 	for (i=0; i<sys->N_particles; i++){
 		pt_set_pos(&(sys->particles[i]),&ZERO_VEC);
 	}
-	return(0);
+	return 0;
 }
 
-int sys_zero_trupos(MDSystem* sys){
+int sys_zero_trupos(MDSystem* sys) {
 	int i;
 	for (i=0; i<sys->N_particles; i++){
 		vec_copy(&ZERO_VEC,&((sys->particles[i]).trupos));
 	}
-	return(0);
+	return 0;
 }
 
 
 
-int sys_zero_velocities(MDSystem* sys){
+int sys_zero_velocities(MDSystem* sys) {
 	int i;
 	for (i=0; i<sys->N_particles; i++){
 		pt_set_vel(&(sys->particles[i]),&ZERO_VEC);
 	}
-	return(0);
+	return 0;
 }
 
-int sys_random_velocities(MDSystem* sys, double A){
+int sys_random_velocities(MDSystem* sys, double A) {
 	if (A<0) A *= -1.;
 	// Randomizes velocities between (approximately) -A and A
 	// Also ensures total momentum is zero
@@ -79,10 +79,10 @@ int sys_random_velocities(MDSystem* sys, double A){
 	
 	sys_zero_momentum(sys);
 	
-	return(0);
+	return 0;
 }
 
-int sys_zero_momentum(MDSystem* sys){
+int sys_zero_momentum(MDSystem* sys) {
 	Vec3 avg_mv;
 	Vec3 vel;
 	calc_system_momentum(sys,&avg_mv);
@@ -107,27 +107,27 @@ int sys_zero_all(MDSystem* sys){
 	sys_unit_masses(sys);
 	sys->time_steps = 0;
 	sys->runtime = 0.;
-	return(0);
+	return 0;
 }
 
-int sys_set_N_particles(MDSystem* sys,int N){
-	if (sys->particles_initialized != INITIALIZED){
+int sys_set_N_particles(MDSystem* sys,int N) {
+	if (sys->particles_initialized != INITIALIZED) {
 		sys->particles = malloc(sizeof(Particle)*N);
-		if (sys->particles == NULL){
-			fprintf(stderr,"Failed to allocate memory for particle list!\n");
+		if (sys->particles == NULL) {
+			fprintf(stderr, "Failed to allocate memory for particle list!\n");
 			return -1;
 		}
 		
 	} else {
 		sys->particles = realloc(sys->particles, sizeof(Particle)*N);
-		if (sys->particles == NULL){
-			fprintf(stderr,"Failed to allocate memory for particle list!\n");
+		if (sys->particles == NULL) {
+			fprintf(stderr, "Failed to allocate memory for particle list!\n");
 			return -1;
 		}
 	}
 	sys->N_particles = N;
 	sys->particles_initialized = INITIALIZED;
-	return(0);
+	return 0;
 }
 
 
@@ -152,7 +152,7 @@ int sys_init(MDSystem* sys) {
 	return 0;
 }
 
-int sys_nvt_ensemble(MDSystem *sys, double T_des, double tau){
+int sys_nvt_ensemble(MDSystem *sys, double T_des, double tau) {
 	sys->nvt_on = 1;
 	sys->zeta = 0;
 	sys->tau_damp = tau;
@@ -161,18 +161,18 @@ int sys_nvt_ensemble(MDSystem *sys, double T_des, double tau){
 	return 0;
 }
 
-int sys_nve_ensemble(MDSystem *sys){
+int sys_nve_ensemble(MDSystem *sys) {
 	sys->nvt_on=0;
 	return 0;
 }
 
 
-int sys_set_dt(MDSystem* sys, double dt){
+int sys_set_dt(MDSystem* sys, double dt) {
 	sys->dt = dt;
 	return 0;
 }
 
-int sys_run(MDSystem* sys, long numsteps,int progress){
+int sys_run(MDSystem* sys, long numsteps,int progress) {
 	long i;
 	double time;
 	long time_left;
@@ -183,7 +183,7 @@ int sys_run(MDSystem* sys, long numsteps,int progress){
 	if (sys->time_steps == 0)
 		vv_update_forces(sys);
 	
-	for (i=0; i<numsteps; i++){
+	for (i=0; i<numsteps; i++) {
 		
 		if (sys->log_initialized == INITIALIZED) { 
 			if (!((sys->time_steps) % (sys->log_every))) {
@@ -217,21 +217,21 @@ int sys_run(MDSystem* sys, long numsteps,int progress){
 	if (progress>0) printf("\rDone.    Time elapsed: %3dmin %2dsec                               \n",
 	                       (int) ((long) time)/60, (int) ((long) time)%60);
 		
-	return(0);
+	return 0;
 }
 
 int sys_destroy(MDSystem *sys) {
-	if (sys->particles_initialized == INITIALIZED){
+	if (sys->particles_initialized == INITIALIZED) {
 		free(sys->particles);
 		sys->particles_initialized = 0;
 	}
 
-	if (sys->log_initialized == INITIALIZED){
+	if (sys->log_initialized == INITIALIZED) {
 		fclose(sys->log_file);
 		sys->log_initialized = 0;
 	}
 	
-	if (sys->anim_initialized == INITIALIZED){
+	if (sys->anim_initialized == INITIALIZED) {
 		fclose(sys->anim_file);
 		sys->anim_initialized = 0;
 	}
@@ -308,7 +308,6 @@ int sys_rescale(MDSystem* sys, Vec3 *new_L){
 
 	return 0;
 }
-
 
 
 
