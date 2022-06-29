@@ -15,13 +15,13 @@ int potential_init(Potential* potential, double r_cut, dist_fun pot_fun, dist_fu
 	return 0;
 }
 
-double F_get(Potential* potential,double r){
+double F_get(Potential* potential,double r) {
 
 	return (r>potential->r_cut)? 0 :
 		   (*(potential->F_fun)) (r, potential->params) - potential->F_cut;
 	
 }
-double U_get(Potential* potential,double r){
+double U_get(Potential* potential,double r) {
 
 	return (r>potential->r_cut)? 0 :
 		(*(potential->U_fun)) (r, potential->params) - potential->U_cut + (r-potential->r_cut)*potential->F_cut;
@@ -73,7 +73,7 @@ double F_Morse(double r, double* params) {
 }
 
 /* Harmonic Bond Potential */
-double U_harmonic(double r,double* params){
+double U_harmonic(double r,double* params) {
 	double k = params[0];
 	double L = params[1];
 	r = r-L;
@@ -81,7 +81,7 @@ double U_harmonic(double r,double* params){
 
 	return energy;
 }
-double F_harmonic(double r,double* params){
+double F_harmonic(double r,double* params) {
 	double k = params[0];
 	double L = params[1];
 	double force = -k*(r-L);
