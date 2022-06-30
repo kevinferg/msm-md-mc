@@ -63,7 +63,3 @@ dkms.conf
 
 # IDE config
 .vscode/
-
-# Plotting scripts
-*.py
-*.m

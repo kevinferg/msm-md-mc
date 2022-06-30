@@ -180,4 +180,4 @@ check_potential(&sys, "potential.log");
 
 Plotting the exported results, we see that the custom Morse potential has been implemented correctly:
 
-![Morse Potential Plot](fig/morse_potential.png)
+<p align="center"><img alt="Morse Potential Plot" src="fig/morse_potential.png"></p>
