@@ -6,13 +6,12 @@ Molecular simulation code written from scratch in C as coursework for [24-623: M
 
 Provides functionality for running MD simulations, complete with multiple thermodynamic ensembles, user-definable potentials, material property logging, particle trajectory output, and more. MC simulation is also included. A more comprehensive list of features is below.
 
-
-The units for all quantities are dimensionless "Lennard-Jones" units, each derived in terms of the base units of length, mass, and energy. [HOOMD-Blue's documentation](https://hoomd-blue.readthedocs.io/en/stable/units.html) has some examples of this.
-
 ---
 
 ## Demonstration
-Simulating 256 particles (argon) at 100K.
+Simulating 256 particles (argon) at 100K. 
+
+The units for all reported quantities are dimensionless "Lennard-Jones" units, each derived in terms of the base units of length, mass, and energy. [HOOMD-Blue's documentation](https://hoomd-blue.readthedocs.io/en/stable/units.html) has some examples of this.
 
 ### Molecular Dynamics
 MD simulations output a trajectory animation file and a log of material properties.
@@ -32,9 +31,9 @@ Simulating the same material using MC, we get the same results:
 ## Features
 
 #### Simulation
-- NVE (microcanonical) Molecular Dynamics simulations with Velocity-Verlet integration
+- NVE (microcanonical) Molecular Dynamics simulations via Velocity-Verlet integration
 - NVT (canonical) Molecular Dynamics simulations using the Nos&#x00E9;-Hoover thermostat
-- Markov Chain Monte Carlo simulations using the [Rosenbluth-Metropolis-Hastings Algorithm](https://en.wikipedia.org/wiki/Metropolis%E2%80%93Hastings_algorithm)
+- Markov Chain Monte Carlo simulations with the [Rosenbluth-Metropolis-Hastings Algorithm](https://en.wikipedia.org/wiki/Metropolis%E2%80%93Hastings_algorithm)
 
 #### Measurements
 - Measure the following properties of the system instantaneously:
@@ -158,7 +157,7 @@ double F_morse(double r, double* params) {
 }
 ```
 
-Then, the potential can be applied to each particle pair in a system. This code does so, and then exports a table of distance, poetntial energy, and force information to a file.
+Then, the potential can be applied to each particle pair in a system. This code sets up the custom potential, and then prints a table of distance, potential energy, and force information to a file.
 
 ```
 MDSystem sys;                      // Create system
@@ -178,6 +177,6 @@ sys.potential = &morse;            // Apply our new Morse potential
 check_potential(&sys, "potential.log");
 ```
 
-Plotting the exported results, we see that the custom Morse potential has been implemented correctly:
+[Plotting](scripts/plot_potential.py) the exported results, we see that the custom Morse potential has been implemented correctly:
 
 <p align="center"><img alt="Morse Potential Plot" src="fig/morse_potential.png"></p>
