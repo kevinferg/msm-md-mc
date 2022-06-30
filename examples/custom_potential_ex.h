@@ -24,7 +24,7 @@ int custom_potential_ex(void) {
     potential_init(&morse,             // Assign the potential:
                    2.5,                // - Cutoff radius: 2.5
                    &U_morse, &F_morse, // - Energy and Force functions
-      (double[3])  {1, 4, 1.1});       // - Morse params: De, a, r_eq
+      (double[3])  {1, 4, 1.1});       // - Morse params: D_e, a, r_e
 
     sys.potential = &morse;            // Apply our new Morse potential
                                        // to each pair in the system
