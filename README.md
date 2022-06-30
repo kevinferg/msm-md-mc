@@ -81,7 +81,7 @@ And then run with:
 
 ## Examples
 
-The following are examples of how common routines can be implemented. These are all in [examples/](examples/).
+The following are examples of how common routines can be implemented. These are all found in [examples/](examples/).
 
 ### MD Simulation
 This snippet demonstrates how to create an MD simulation in the NVT ensemble. To measure properties, it is recommended to let the system equilibrate in NVT, then turn off the thermostat to run in NVE, and log system properties there, as seen in this example.
@@ -158,7 +158,7 @@ double F_morse(double r, double* params) {
 }
 ```
 
-Then, the potential can be applied to each particle pair in a system:
+Then, the potential can be applied to each particle pair in a system. This code does so, and then exports a table of distance, poetntial energy, and force information to a file.
 
 ```
 MDSystem sys;                      // Create system
@@ -177,3 +177,7 @@ sys.potential = &morse;            // Apply our new Morse potential
 /* Export [r, U, F] table to potential.log */
 check_potential(&sys, "potential.log");
 ```
+
+Plotting the exported results, we see that the custom Morse potential has been implemented correctly:
+
+![Morse Potential Plot](fig/morse_potential.png)
