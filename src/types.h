@@ -38,7 +38,7 @@ typedef struct {
 	double U_cut;      // Internally-generated U at cutoff
 	double F_cut;      // Internally-generated F at cutoff
 	
-	double* params;    // Pointer to an array of potential parameters.
+	void* params;      // Pointer to a struct of potential parameters.
 } Potential;
 
 
