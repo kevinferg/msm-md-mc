@@ -137,41 +137,48 @@ This example demonstrates how to create a user-defined pair potential and apply 
 
 $ U(r) = D_e \left(1 - e^{-a(r - r_{e})} \right)^2, $  
 
-where $r$ is center-to-center distance, $D_e$ is well depth, $a$ describes well width, and $r_e$ is equilibrium distance. First, we define an energy function and a force function, both in the form `double potential_function(double r, double* params)`, with free parameters (in this case $D_e$, $a$, and $r_e$) in the `params` array:
+where $r$ is center-to-center distance, $D_e$ is well depth, $a$ describes well width, and $r_e$ is equilibrium distance. First, we define a struct that contains the necessary parameters. 
 
 ```
-double U_morse(double r, double* params) {
-    double D_e = params[0];  // Well depth
-    double a   = params[1];  // Well width
-    double r_e = params[2];  // Equilibrium bond distance
-    double part = 1 - exp(a * (r_e - r));
-    return D_e * part * part;
-}
+typedef struct MorseParameters {
+    double D_e; // Well depth
+    double   a; // Well width (larger a = wider well)
+    double r_e; // Equilibrium distance
+} MorseParameters;
+```
 
-double F_morse(double r, double* params) {
-    double D_e = params[0];  // Well depth
-    double a   = params[1];  // Well width
-    double r_e = params[2];  // Equilibrium bond distance
-    double part = exp(a * (r_e - r));
-    return -2 * a * D_e * part * (1 - part);
+Then, we define an energy function and a force function, each in the form `double potential_function(double r, const void* params)`, with free parameters (in this case $D_e$, $a$, and $r_e$) accessed by casting the `params` void pointer into a pointer to the struct of parameters.
+
+```
+double U_morse(double r, const void* params) {
+    const MorseParameters* P = (const MorseParameters*) params;
+    double part = 1 - exp(P->a * (P->r_e - r));
+    return P->D_e * part * part;
+}
+double F_morse(double r, const void* params) {
+    const MorseParameters* P = (const MorseParameters*) params;
+    double part = exp(P->a * (P->r_e - r));
+    return -2 * P->a * P->D_e * part * (1 - part);
 }
 ```
 
 Then, the potential can be applied to each particle pair in a system. This code sets up the custom potential, and then prints a table of distance, potential energy, and force information to a file.
 
 ```
-MDSystem sys;                      // Create system
-sys_init(&sys);                    // Initialize system 
-                                   // (with default LJ potential)
+MDSystem sys;                       // Create system
+sys_init(&sys);                     // Initialize system 
+                                    // (with default LJ potential)
+MorseParameters params = {          // Define Morse parameters
+    .D_e = 1, .a = 4, .r_e = 1.1
+};
+Potential morse;                    // Create a new potential
+potential_init(&morse,              // Assign the potential:
+               2.5,                 // - Cutoff radius: 2.5
+               &U_morse, &F_morse,  // - Energy and Force functions
+               &params);            // - Morse params: D_e, a, r_e
 
-Potential morse;                   // Create a new potential
-potential_init(&morse,             // Assign the potential:
-               2.5,                // - Cutoff radius: 2.5
-               &U_morse, &F_morse, // - Energy and Force functions
-  (double[3])  {1, 4, 1.1});       // - Morse params: D_e, a, r_e
-
-sys.potential = &morse;            // Apply our new Morse potential
-                                   // to each pair in the system
+sys.potential = &morse;             // Apply our new Morse potential
+                                    // to each pair in the system
 
 /* Export [r, U, F] table to potential.log */
 check_potential(&sys, "potential.log");
