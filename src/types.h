@@ -24,8 +24,8 @@ typedef struct {
 } Particle;
 
 
-/* Function pointer that takes in a distance and an array of parameters as arguments, for potential/force calculations*/
-typedef double (*dist_fun) (double, double*);
+/* Function pointer that takes in a distance and a struct of parameters as arguments, for potential/force calculations*/
+typedef double (*dist_fun) (double, const void*);
 
 
 /* A potential, contains the functions used for force/potential calculations, 
