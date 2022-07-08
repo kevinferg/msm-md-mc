@@ -3,7 +3,7 @@
 #include "types.h"
 #include "potentials.h"
 
-int potential_init(Potential* potential, double r_cut, dist_fun pot_fun, dist_fun frc_fun, const void* params){
+int potential_init(Potential* potential, double r_cut, dist_fun pot_fun, dist_fun frc_fun, void* params){
 	potential->U_fun = pot_fun;
 	potential->F_fun = frc_fun;
 	potential->params = params;
@@ -35,7 +35,7 @@ double U_get(Potential* potential, double r) {
 /* Lennard-Jones Potential */
 double U_lj(double r, const void* params) {
 	const LJParams* P = (const LJParams*) params;
-	
+
 	double s_over_r = P->sigma / r;
 	double sr3 = s_over_r * s_over_r * s_over_r;
 	double sr6 = sr3 * sr3;

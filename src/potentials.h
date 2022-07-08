@@ -15,8 +15,8 @@
   Make sure 'params' and 'potential' exist within the same scope as the simulation system.
   i.e. If they are created within a function, a potential initialized with them will no
        longer work once the function is returned, unless 'potential' or 'params' were
-       static, or 'params' is an array literal. */
-int potential_init(Potential* potential, double r_cut, dist_fun pot_fun, dist_fun frc_fun, const void* params);
+       static, or 'params' is a compound literal. */
+int potential_init(Potential* potential, double r_cut, dist_fun pot_fun, dist_fun frc_fun, void* params);
 
 /* Evaluates the energy for 'potential' at a given distance 'r', applying the cutoff radius */
 double U_get(Potential* potential, double r);
@@ -29,8 +29,8 @@ double F_get(Potential* potential, double r);
 
 /* Lennard-Jones Potential */
 typedef struct LJParams {
-   double epsilon; // Energy
-   double   sigma; // Distance
+   double epsilon; // Dispersion Energy
+   double   sigma; // Particle "Size"
 } LJParams;
 double U_lj(double r, const void* params);
 double F_lj(double r, const void* params);

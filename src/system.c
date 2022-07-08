@@ -130,9 +130,9 @@ int sys_init(MDSystem* sys) {
 	sys_set_dt(sys, 0.002);
 	sys_set_boxlen(sys,1.);
 	
-	static double lj_params[] = {1., 1.};
+	static LJParams lj_params = {.epsilon = 1., .sigma = 1.};
 	static Potential lj;
-	potential_init(&lj, 2.5, &U_lj, &F_lj, lj_params);
+	potential_init(&lj, 2.5, &U_lj, &F_lj, &lj_params);
 	sys->potential = &lj;
 
 	sys->log_initialized = 0;
