@@ -137,17 +137,21 @@ This example demonstrates how to create a user-defined pair potential and apply 
 
 $ U(r) = D_e \left(1 - e^{-a(r - r_{e})} \right)^2, $  
 
-where $r$ is center-to-center distance, $D_e$ is well depth, $a$ describes well width, and $r_e$ is equilibrium distance. First, we define a struct that contains the necessary parameters. Then, we define an energy function and a force function, each in the form `double potential_function(double r, const void* params)`, with free parameters (in this case $D_e$, $a$, and $r_e$) accessed by casting the `params` void pointer into a pointer to the struct of parameters.
+where $r$ is center-to-center distance, $D_e$ is well depth, $a$ describes well width, and $r_e$ is equilibrium distance. First, we define a struct that contains the necessary parameters. 
 
 ```
 typedef struct MorseParameters {
-   double D_e; // Well depth
-   double   a; // Well width (larger a = wider well)
-   double r_e; // Equilibrium distance
+    double D_e; // Well depth
+    double   a; // Well width (larger a = wider well)
+    double r_e; // Equilibrium distance
 } MorseParameters;
+```
 
+Then, we define an energy function and a force function, each in the form `double potential_function(double r, const void* params)`, with free parameters (in this case $D_e$, $a$, and $r_e$) accessed by casting the `params` void pointer into a pointer to the struct of parameters.
+
+```
 double U_morse(double r, const void* params) {
-	const MorseParameters* P = (const MorseParameters*) params;
+    const MorseParameters* P = (const MorseParameters*) params;
     double part = 1 - exp(P->a * (P->r_e - r));
     return P->D_e * part * part;
 }
@@ -169,9 +173,9 @@ MorseParameters params = {          // Define Morse parameters
 };
 Potential morse;                    // Create a new potential
 potential_init(&morse,              // Assign the potential:
-                2.5,                // - Cutoff radius: 2.5
-                &U_morse, &F_morse, // - Energy and Force functions
-                &params);           // - Morse params: D_e, a, r_e
+               2.5,                 // - Cutoff radius: 2.5
+               &U_morse, &F_morse,  // - Energy and Force functions
+               &params);            // - Morse params: D_e, a, r_e
 
 sys.potential = &morse;             // Apply our new Morse potential
                                     // to each pair in the system
