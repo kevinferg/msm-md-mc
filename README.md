@@ -4,26 +4,26 @@
 ## Project Description
 Molecular simulation code written from scratch in C as coursework for [24-623: Molecular Simulation of Materials](https://www.meche.engineering.cmu.edu/education/courses/24-623.html).
 
-Provides functionality for running MD simulations, complete with multiple thermodynamic ensembles, user-definable potentials, material property logging, particle trajectory output, and more. MC simulation is also included. A more comprehensive list of features is below.
+Provides functionality for running MD simulations, complete with material property logging, user-definable potentials, multiple thermodynamic ensembles, particle trajectory output, and more. MC simulation is also included. A more comprehensive list of features is below.
 
 ---
 
 ## Demonstration
 Simulating 256 particles (argon) at 100K. 
 
-The units for all reported quantities are dimensionless "Lennard-Jones" units, each derived in terms of the base units of length, mass, and energy. [HOOMD-Blue's documentation](https://hoomd-blue.readthedocs.io/en/stable/units.html) has some examples of this.
+The units for all reported quantities are dimensionless units, each derived in terms of the base units of length, mass, and energy. [HOOMD-Blue's documentation](https://hoomd-blue.readthedocs.io/en/stable/units.html) has some examples of this.
 
 ### Molecular Dynamics
-MD simulations output a trajectory animation file and a log of material properties.
+MD simulations output a trajectory animation file and a log of material properties. This particular simulation runs in the NVT ensemble for 50,000 time steps of size 0.002. Then the ensemble is changed to NVE, and it runs for another 50,000 steps.
 
 <p align="center"><img alt="Visualization made in OVITO" src="fig/ovito_animation.gif"></p>
 <p align="center">Visualization made using <a href="https://www.ovito.org/">OVITO</a>.</p>
 
-Plotting potential energy and pressure of the system over time:
+Plotting potential energy and pressure of the system over the last 100 dimensionless time units:
 <p align="center"><img alt="MD properties" src="fig/MD_plot.png"></p>
 
 ### Monte Carlo
-Simulating the same material using MC, we get the same results:
+Simulating the same material using MC for 2.5 million iterations, we get the same results:
 <p align="center"><img alt="MC properties" src="fig/MC_plot.png"></p>
 
 ---
@@ -31,8 +31,8 @@ Simulating the same material using MC, we get the same results:
 ## Features
 
 #### Simulation
-- NVE (microcanonical) Molecular Dynamics simulations via Velocity-Verlet integration
-- NVT (canonical) Molecular Dynamics simulations using the Nos&#x00E9;-Hoover thermostat
+- NVE (microcanonical ensemble) Molecular Dynamics simulations via Velocity-Verlet integration
+- NVT (canonical ensemble) Molecular Dynamics simulations using the Nos&#x00E9;-Hoover thermostat
 - Markov Chain Monte Carlo simulations with the [Rosenbluth-Metropolis-Hastings Algorithm](https://en.wikipedia.org/wiki/Metropolis%E2%80%93Hastings_algorithm)
 
 #### Measurements
@@ -66,7 +66,7 @@ Simulating the same material using MC, we get the same results:
 ---
 
 ## Usage
-Put main simulation code in `src/main.c`.  
+Include the header file `md_all.h`. Put main simulation code in `src/main.c`.  
 To compile, use:
 ```
 gcc src/*.c -o bin/simulate -lm
@@ -135,7 +135,7 @@ The function [`mc_simulation()`](src/utils.c) does all of this in one step.
 ### Custom Potential
 This example demonstrates how to create a user-defined pair potential and apply it to a system. Consider a [Morse potential](https://en.wikipedia.org/wiki/Morse_potential) given by:  
 
-$ U(r) = D_e \left(1 - e^{-a(r - r_{e})} \right)^2, $  
+$$ U(r) = D_e \left(1 - e^{-a(r - r_{e})} \right)^2, $$
 
 where $r$ is center-to-center distance, $D_e$ is well depth, $a$ describes well width, and $r_e$ is equilibrium distance. First, we define a struct that contains the necessary parameters. 
 
