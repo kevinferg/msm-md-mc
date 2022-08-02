@@ -84,7 +84,7 @@ The following are examples of how common routines can be implemented. These are 
 
 ### MD Simulation
 This snippet demonstrates how to create an MD simulation in the NVT ensemble. To measure properties, it is recommended to let the system equilibrate in NVT, then turn off the thermostat to run in NVE, and log system properties there, as seen in this example.
-```
+```C
 MDSystem sys;                            // Create system
 sys_init(&sys);                          // Initialize system with default Lennard-Jones potential
 
@@ -112,7 +112,7 @@ The function [`md_simulation()`](src/utils.c) does all of this in one step.
 
 ### MC Simulation
 This example shows a basic MC simulation.
-```
+```C
 MDSystem sys;                          // Create system
 sys_init(&sys);                        // Initialize system with default LJ potential
 
@@ -139,7 +139,7 @@ $$ U(r) = D_e \left(1 - e^{-a(r - r_{e})} \right)^2, $$
 
 where $r$ is center-to-center distance, $D_e$ is well depth, $a$ describes well width, and $r_e$ is equilibrium distance. First, we define a struct that contains the necessary parameters. 
 
-```
+```C
 typedef struct MorseParameters {
     double D_e; // Well depth
     double   a; // Well width (larger a = wider well)
@@ -149,7 +149,7 @@ typedef struct MorseParameters {
 
 Then, we define an energy function and a force function, each in the form `double potential_function(double r, const void* params)`, with free parameters (in this case $D_e$, $a$, and $r_e$) accessed by casting the `params` void pointer into a pointer to the struct of parameters.
 
-```
+```C
 double U_morse(double r, const void* params) {
     const MorseParameters* P = (const MorseParameters*) params;
     double part = 1 - exp(P->a * (P->r_e - r));
@@ -164,7 +164,7 @@ double F_morse(double r, const void* params) {
 
 Then, the potential can be applied to each particle pair in a system. This code sets up the custom potential, and then prints a table of distance, potential energy, and force information to a file.
 
-```
+```C
 MDSystem sys;                       // Create system
 sys_init(&sys);                     // Initialize system 
                                     // (with default LJ potential)
