@@ -12,6 +12,7 @@
 #include "logging.h"
 #include "io.h"
 #include "utils.h"
+#include "rdf.h"
 
 #endif
 
