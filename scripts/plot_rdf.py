@@ -8,7 +8,7 @@ def read_data(filename):
     return r, g
 
 def make_plot(r, g, filename = None):
-    plt.figure(figsize=(4, 3),dpi=200)
+    plt.figure(figsize=(4, 3))
     
     plt.plot(r, g, 'b-', label = "g(r)", linewidth = 1.5)
 
