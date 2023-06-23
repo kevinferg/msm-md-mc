@@ -4,7 +4,7 @@ int md_ex(void) {
     MDSystem sys;                            // Create system
     sys_init(&sys);                          // Initialize system with default Lennard-Jones potential
 
-    io_load_txt(&sys, "liquid256.txt");      // Load particles locations from file "liquid256.txt"
+    io_load_txt(&sys, "liquid256.txt");      // Load particle locations from file "liquid256.txt"
     sys_set_boxlen(&sys, 6.8);               // Periodic boundary with box side lengths 6.8
 
     anim_init(&sys, 100, "trajectory.xyz");  // Output locations to "trajectory.xyz" every 100 steps
