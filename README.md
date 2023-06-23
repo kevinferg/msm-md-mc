@@ -4,7 +4,7 @@
 ## Project Description
 Molecular simulation code written from scratch in C as coursework for [24-623: Molecular Simulation of Materials](https://www.meche.engineering.cmu.edu/education/courses/24-623.html).
 
-Provides functionality for running MD simulations, complete with material property logging, user-definable potentials, multiple thermodynamic ensembles, particle trajectory output, and more. MC simulation is also included. A more comprehensive list of features is below.
+Provides functionality for running MD simulations, complete with material property logging, user-definable potentials, multiple thermodynamic ensembles, particle trajectory output, radial distribution function calculation, and more. MC simulation is also included. A more comprehensive list of features is below.
 
 ---
 
@@ -41,12 +41,14 @@ Simulating the same material using MC for 2.5 million iterations, we get the sam
   - Kinetic energy, potential energy, and Hamiltonian
   - Mean squared displacement (MSD)
   - x-, y-, and z-components of momentum and center of mass
+  - Radial distribution function
 
 #### File I/O
 - Read particle locations from a .txt file
 - Output a text file log of material properties over time during a simulation
 - Output particle locations as a .xyz or .pdb file
 - Output particle trajectories as a .xyz animation file
+- Export radial distribution function, g(r), to a text file
 
 #### Potentials
 - Built-in pair potentials with variable parameters
@@ -88,7 +90,7 @@ This snippet demonstrates how to create an MD simulation in the NVT ensemble. To
 MDSystem sys;                            // Create system
 sys_init(&sys);                          // Initialize system with default Lennard-Jones potential
 
-io_load_txt(&sys, "liquid256.txt");      // Load particles locations from file "liquid256.txt"
+io_load_txt(&sys, "liquid256.txt");      // Load particle locations from file "liquid256.txt"
 sys_set_boxlen(&sys, 6.8);               // Periodic boundary with box side lengths 6.8
 
 anim_init(&sys, 100, "trajectory.xyz");  // Output locations to "trajectory.xyz" every 100 steps
@@ -116,7 +118,7 @@ This example shows a basic MC simulation.
 MDSystem sys;                          // Create system
 sys_init(&sys);                        // Initialize system with default LJ potential
 
-io_load_txt(&sys,"liquid256.txt");     // Load particles locations from file "liquid256.txt"
+io_load_txt(&sys,"liquid256.txt");     // Load particle locations from file "liquid256.txt"
 sys_set_boxlen(&sys, 6.8);             // Periodic boundary with box side lengths 6.8
 log_init(&sys, 1, "log.txt");          // Output material properties to "log.txt" every 1 step
 
@@ -187,3 +189,26 @@ check_potential(&sys, "potential.log");
 [Plotting](scripts/plot_potential.py) the exported results, we see that the custom Morse potential has been implemented correctly:
 
 <p align="center"><img alt="Morse Potential Plot" src="fig/morse_potential.png"></p>
+
+### Radial Distribution Function
+
+$g(r)$, the Radial Distribution Function (RDF) of a system describes the density of particles at a distance $r$ from each particle. The functions `rdf_export_from_system` and `rdf_export_from_system` can be used to compute/export the radial distribution function of a system at a given instant. The number of histogram bins must be specified. Ideally, the instantaneous RDF should be averaged across several time steps to give a smoother function.
+
+```C
+MDSystem sys;                          // Create system
+sys_init(&sys);                        // Initialize system with default LJ potential
+
+io_load_txt(&sys,"liquid256.txt");     // Load particle locations from file "liquid256.txt"
+sys_set_boxlen(&sys, 6.8);             // Periodic boundary with box side lengths 6.8
+
+/* Run simulation here */
+
+rdf_export_from_system(&sys,           // Print g(r) for a system
+                       50,             // 50 bins
+                       "rdf.txt");     // Print r and g(r) to "rdf.txt"
+
+sys_destroy(&sys);                     // Free the system and close log file
+```
+
+From the contents of the output file "rdf.txt", we can create the following [RDF plot](scripts/plot.py):
+<p align="center"><img alt="Morse Potential Plot" src="fig/rdf.png"></p>

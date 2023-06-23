@@ -4,7 +4,7 @@ int mc_ex(void) {
     MDSystem sys;                          // Create system
     sys_init(&sys);                        // Initialize system with default LJ potential
 
-    io_load_txt(&sys,"liquid256.txt");     // Load particles locations from file "liquid256.txt"
+    io_load_txt(&sys,"liquid256.txt");     // Load particle locations from file "liquid256.txt"
     sys_set_boxlen(&sys, 6.8);             // Periodic boundary with box side lengths 6.8
     log_init(&sys, 1, "log.txt");          // Output material properties to "log.txt" every 1 step
 

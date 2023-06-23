@@ -6,6 +6,8 @@
 #include "../examples/custom_potential_ex.h"
 #include "../examples/mc_ex.h"
 #include "../examples/md_ex.h"
+#include "../examples/rdf_ex.h"
+
 
 int main(int argc, char** argv) {
 
@@ -19,7 +21,6 @@ int main(int argc, char** argv) {
 	printf("MD: Success.\n\n"); fflush(stdout);
 
 
-
 	// Run a Monte Carlo simulation
 	mc_ex();
 	/* Equivalent to:
@@ -29,10 +30,14 @@ int main(int argc, char** argv) {
 	printf("MC: Success.\n\n"); fflush(stdout);
 	
 
-
 	// Export pair potential and force for a range of radii
 	custom_potential_ex();
 	printf("Custom potential: Success.\n\n"); fflush(stdout);
+
+
+	// Export a Radial Distribution Function of a system
+	rdf_ex();
+	printf("RDF: Success.\n\n"); fflush(stdout);
 
 	return 0;
 }
