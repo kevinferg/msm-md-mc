@@ -210,5 +210,5 @@ rdf_export_from_system(&sys,           // Print g(r) for a system
 sys_destroy(&sys);                     // Free the system and close log file
 ```
 
-From the contents of the output file "rdf.txt", we can create the following [RDF plot](scripts/plot.py):
+From the contents of the output file "rdf.txt", we can create the following [RDF plot](scripts/plot_rdf.py):
 <p align="center"><img alt="Morse Potential Plot" src="fig/rdf.png"></p>
