@@ -54,6 +54,7 @@ Simulating the same material using MC for 2.5 million iterations, we get the sam
 - Built-in pair potentials with variable parameters
   - Lennard-Jones potential
   - Morse potential
+  - Oscillating pair potential
   - Harmonic bond (bond support is unfinished)
 - Potentials from user-specified functions
 - Built-in shifting cutoff radius support for potentials
