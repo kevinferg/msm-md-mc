@@ -67,6 +67,50 @@ double F_Morse(double r, const void* params) {
     return -2 * P->a * P->D_e * part * (1 - part);
 }
 
+/* Oscillating Pair Potential */
+
+int get_two_powers(double r, int p1, int p2, double* A1, double* A2) {
+	// Takes input r to 2 different integer powers
+	// A1: r^(p1)
+	// A2: r^(p2) 
+	*A1 = 1.;
+	*A2 = 1.;
+	while (p1 || p2) {
+		if (p1 % 2) {
+			*A1 *= r;
+			printf("A1 * %f --> %f\n",r,*A1);
+		}
+		if (p2 % 2) {
+			*A2 *= r;
+			printf("A2 * %f --> %f\n",r,*A2);
+		}
+		p2 /= 2;
+		p1 /= 2;
+		if (!p1 && !p2) {
+			break;
+		}
+		r *= r;
+	}
+	return 0;
+}
+
+double U_opp(double r, const void* params) {
+	const OPPParams* P = (const OPPParams*) params;
+	double A1, A2;
+	get_two_powers(1./r, P->eta1, P->eta2, &A1, &A2);
+	return P->C1 * A1 + P->C2 * A2 * cos(P->k * r - P->phi);
+}
+
+double F_opp(double r, const void* params) {
+	const OPPParams* P = (const OPPParams*) params;
+	double A1, A2;
+	get_two_powers(1./r, P->eta1 - 1, P->eta2 - 1, &A1, &A2);
+	double term1 = P->eta1 * P->C1 * A1;
+	double term2 = P->eta2 * P->C2 * A2 * cos(P->k * r - P->phi);
+	double term3 = P->k * P->eta2 * P->C2 * A2 * r * sin(P->k * r - P->phi);;
+	return -(term1 + term2 + term3);
+}
+
 /* Harmonic Bond Potential */
 double U_harmonic(double r, const void* params) {
 	const HarmonicParams* P = (const HarmonicParams*) params;

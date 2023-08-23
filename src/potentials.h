@@ -45,6 +45,18 @@ typedef struct MorseParams {
 double U_Morse(double r, const void* params);
 double F_Morse(double r, const void* params);
 
+/* Oscillating Pair Potential */
+typedef struct OPPParams {
+   double C1;  // Coefficient of decaying term
+   double C2;  // Coefficient of oscillating term
+   int eta1;   // Exponent of decaying term
+   int eta2;   // Exponent of oscillating term
+   double k;   // Frequency
+   double phi; // Phase shift
+} OPPParams;
+double U_opp(double r, const void* params);
+double F_opp(double r, const void* params);
+
 
 /* Harmonic Bond Potential */
 typedef struct HarmonicParams {
