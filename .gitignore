@@ -64,3 +64,6 @@ rdf.txt
 
 # IDE config
 .vscode/
+
+# Notebooks
+*.ipynb
