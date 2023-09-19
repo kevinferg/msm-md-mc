@@ -121,6 +121,7 @@ int rdf_compute_from_system(MDSystem* sys, int N_bins, double* r_vals, double* g
     status += rdf_get_bin_centers(r_vals, N_bins, r_min, r_max);
     free(bins);
     free(distances);
+	return status;
 }
 
 int rdf_export_from_system(MDSystem* sys, int N_bins, char* filename) {
